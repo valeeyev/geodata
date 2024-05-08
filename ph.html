@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search in Google Maps</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      button {
+        border-radius: 10px;
+        padding: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+        border: #fff solid 2px;
+        transition: all ease-in-out 0.4s;
+        background-color: #c4c4c49a;
+      }
+      button:focus {
+        border: green solid 2px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="findLocationBtn">Qayerdaman 🤔</button>
+
+    <script>
+      document
+        .getElementById("findLocationBtn")
+        .addEventListener("click", function () {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            submitToGoogleMaps(latitude, longitude);
+          });
+        });
+
+      function submitToGoogleMaps(latitude, longitude) {
+        //forma
+        const form = document.createElement("form");
+        form.method = "GET";
+        form.action = "https://www.google.com/maps/search/";
+
+        // latitude va longitude
+        const inputLat = document.createElement("input");
+        inputLat.type = "hidden";
+        inputLat.name = "api";
+        inputLat.value = "1";
+        form.appendChild(inputLat);
+
+        const inputLon = document.createElement("input");
+        inputLon.type = "hidden";
+        inputLon.name = "query";
+        inputLon.value = `${latitude},${longitude}`;
+        form.appendChild(inputLon);
+
+        // Append
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+  </body>
+</html>
